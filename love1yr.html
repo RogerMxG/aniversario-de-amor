@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Aniversario ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="icon" href="/icon/love.png">
+    <style>
+        :root {
+            --bg-main: #FDF2F8;
+            /* rose-50 */
+            --text-primary: #831843;
+            /* rose-900 */
+            --accent-primary: #E11D48;
+            /* rose-600 */
+            --accent-soft: #FBCFE8;
+            /* rose-200 */
+            --shadow-light: #ffffff;
+            --shadow-dark: #F4DDE9;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .font-title {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        /* Neumorphism Base Styles */
+        .neumorphic {
+            background: var(--bg-main);
+            border-radius: 2rem;
+            box-shadow: 8px 8px 16px var(--shadow-dark), -8px -8px 16px var(--shadow-light);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .neumorphic-inset {
+            box-shadow: inset 8px 8px 16px var(--shadow-dark), inset -8px -8px 16px var(--shadow-light);
+        }
+
+        .neumorphic-button:active {
+            box-shadow: inset 6px 6px 12px var(--shadow-dark), inset -6px -6px 12px var(--shadow-light);
+            transform: scale(0.98);
+        }
+
+        /* General Animations */
+        .fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-out-down {
+            animation: fadeOutDown 0.8s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+        }
+
+        @keyframes fadeOutDown {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        .animate-shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translateX(-1px);
+            }
+
+            20%,
+            80% {
+                transform: translateX(2px);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translateX(-4px);
+            }
+
+            40%,
+            60% {
+                transform: translateX(4px);
+            }
+        }
+
+        /* Login Background Hearts */
+        .login-heart {
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            animation: move-bubble 20s infinite alternate ease-in-out;
+        }
+
+        .login-heart::before,
+        .login-heart::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            border-radius: 50px 50px 0 0;
+            background: rgba(236, 72, 153, 0.1);
+            transition: transform 1s ease-out;
+        }
+
+        .login-heart::before {
+            left: 50px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .login-heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .login-heart.broken::before {
+            animation: break-left 1.5s forwards ease-out;
+        }
+
+        .login-heart.broken::after {
+            animation: break-right 1.5s forwards ease-out;
+        }
+
+        @keyframes break-left {
+            to {
+                transform: translate(-30px, 50px) rotate(-60deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes break-right {
+            to {
+                transform: translate(30px, 50px) rotate(60deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes move-bubble {
+            from {
+                transform: translateY(0) translateX(0) scale(var(--scale, 1));
+            }
+
+            to {
+                transform: translateY(-30px) translateX(20px) scale(var(--scale, 1));
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .modal-content.fading {
+            opacity: 0;
+            transform: scale(0.95) !important;
+        }
+
+        /* Music Permission Modal Specific Styles */
+        #music-permission-modal.bg-black-fade {
+            background-color: black;
+            transition: background-color 1s ease-in-out, opacity 0.5s ease;
+        }
+
+        #music-permission-modal.bg-black-fade.accepted {
+            background-color: transparent;
+            /* Fades to transparent on accept */
+            opacity: 0;
+            /* Also fade out the modal content */
+            pointer-events: none;
+        }
+
+        /* Envelope Card styles */
+        .carta-sobre-container {
+            aspect-ratio: 4 / 3;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+
+        .carta-sobre {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .carta-sobre-container:hover .carta-sobre {
+            transform: translateY(-8px);
+        }
+
+        .cuerpo-sobre {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--carta-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .solapa {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 55%;
+            background-color: var(--flap-color);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top;
+            transition: transform 0.5s 0.1s ease-in-out;
+            z-index: 2;
+        }
+
+        .corazon-sobre {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -10%);
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+            transition: opacity 0.3s;
+            z-index: 1;
+        }
+
+        .carta-sobre-container.abierta .solapa {
+            transform: rotateX(180deg);
+            transition-delay: 0s;
+            z-index: 0;
+        }
+
+        .carta-sobre-container.abierta .corazon-sobre {
+            opacity: 0;
+        }
+
+        /* Chest styles */
+        #cofre-container {
+            cursor: pointer;
+            position: relative;
+            animation: cofrePulse 2.5s infinite ease-in-out;
+            margin-top: 40px;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .cofre {
+            width: 250px;
+            height: 180px;
+            position: relative;
+            margin: 20px auto;
+            perspective: 1000px;
+            filter: drop-shadow(5px 5px 10px var(--shadow-dark));
+        }
+
+        .cofre-base,
+        .cofre-tapa {
+            background: #D8BFAA;
+            border: 8px solid #FDF2F8;
+            box-shadow: 0 0 0 8px #F3E4D7;
+        }
+
+        .cofre-base {
+            width: 100%;
+            height: 120px;
+            position: absolute;
+            bottom: 0;
+            border-radius: 10px;
+        }
+
+        .cofre-tapa {
+            width: 100%;
+            height: 70px;
+            position: absolute;
+            top: -10px;
+            border-radius: 20px 20px 5px 5px;
+            transform-origin: bottom center;
+            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 10;
+        }
+
+        .cofre-cerradura {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 25px;
+            height: 25px;
+            background: #F3E4D7;
+            border-radius: 50%;
+            border: 3px solid #FDF2F8;
+            box-shadow: 0 0 0 3px #D8BFAA;
+        }
+
+        #cofre-container.abierto .cofre-tapa {
+            transform: translateY(-15px) rotateX(-140deg);
+        }
+
+        @keyframes cofrePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        /* Sparkle & Scroll Heart Animations */
+        .sparkle,
+        .scroll-heart {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .sparkle {
+            width: 10px;
+            height: 10px;
+            background: gold;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle-anim 2s ease-out forwards;
+        }
+
+        .scroll-heart {
+            font-size: 24px;
+            color: var(--accent-soft);
+            animation: scroll-heart-anim 1.5s ease-out forwards;
+        }
+
+        @keyframes sparkle-anim {
+            from {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+
+            to {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        @keyframes scroll-heart-anim {
+            from {
+                opacity: 0.8;
+                transform: translateY(0) scale(0.5);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-150px) scale(1.2);
+            }
+        }
+
+        /* Abstract Background Shapes */
+        #background-shapes .shape {
+            position: fixed;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.1), rgba(253, 242, 248, 0.05));
+            border-radius: 50%;
+            z-index: -1;
+            animation: move-shape 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes move-shape {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+            }
+
+            100% {
+                transform: translateY(-50px) translateX(30px) rotate(20deg) scale(1.1);
+            }
+        }
+    </style>
+</head>
+
+<body class="text-gray-700">
+    <div id="background-shapes"></div>
+    <div id="scroll-hearts-container" class="fixed inset-0 pointer-events-none z-50"></div>
+
+    <audio id="background-music" loop>
+        <source src="blue.weba" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <nav id="navbar"
+        class="fixed top-0 left-0 right-0 z-40 bg-white/50 backdrop-blur-lg shadow-lg transform -translate-y-full transition-transform duration-500 rounded-b-3xl">
+        <div
+            class="container mx-auto flex flex-col sm:flex-row justify-center sm:justify-between items-center gap-2 p-3 px-6">
+            <div class="flex items-end space-x-2 md:space-x-3 text-center">
+                <div>
+                    <p id="nav-days" class="text-xl md:text-2xl font-bold text-pink-500">0</p>
+                    <p class="text-xs font-medium">Días</p>
+                </div>
+                <div>
+                    <p id="nav-hours" class="text-xl md:text-2xl font-bold text-fuchsia-500">0</p>
+                    <p class="text-xs font-medium">Horas</p>
+                </div>
+                <div>
+                    <p id="nav-minutes" class="text-xl md:text-2xl font-bold text-purple-500">0</p>
+                    <p class="text-xs font-medium">Min</p>
+                </div>
+                <div>
+                    <p id="nav-seconds" class="text-xl md:text-2xl font-bold text-violet-500">0</p>
+                    <p class="text-xs font-medium">Seg</p>
+                </div>
+            </div>
+            <ul class="flex space-x-4 md:space-x-6 font-bold text-sm md:text-base">
+                <li><a href="#nuestro-mundo" class=" hover:text-rose-600 transition-colors">Nuestro Mundo</a></li>
+                <li><a href="#razones" class=" hover:text-rose-600 transition-colors">12 Razones</a></li>
+                <li><a href="#album" class=" hover:text-rose-600 transition-colors">Álbum</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="login-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 overflow-hidden">
+        <div id="login-bg-hearts" class="absolute inset-0"></div>
+        <div class="relative z-10 neumorphic p-8 text-center max-w-sm w-full">
+            <h1 class="font-title text-6xl text-rose-600 mb-4">Nuestro Primer Año</h1>
+            <p class="mb-6">Ingresa la fecha mágica (DDMMAA):</p>
+            <form id="login-form">
+                <input type="password" id="password"
+                    class="w-full px-4 py-3 neumorphic neumorphic-inset rounded-lg text-center text-xl tracking-widest focus:outline-none placeholder-gray-400 transition-all"
+                    placeholder="••••••">
+                <button type="submit"
+                    class="w-full neumorphic neumorphic-button bg-rose-500 text-white mt-6 py-3 rounded-lg hover:bg-rose-600 font-bold transform">Desbloquear
+                    Recuerdos</button>
+            </form>
+            <p id="error-message" class="text-red-500 mt-4 h-5"></p>
+        </div>
+    </div>
+
+    <div id="main-content" class="hidden">
+        <div class="container mx-auto p-4 md:p-8 text-center space-y-16">
+            <div id="main-counter-section" class="neumorphic p-6 md:p-8">
+                <h3 class="font-title text-5xl text-rose-600 mb-6">Nuestra Historia en Números</h3>
+                <div class="flex justify-center items-end space-x-2 md:space-x-4">
+                    <div>
+                        <p id="days" class="text-5xl md:text-7xl font-bold text-pink-500">0</p>
+                        <p class="text-sm md:text-base font-medium">Días</p>
+                    </div>
+                    <div>
+                        <p id="hours" class="text-5xl md:text-7xl font-bold text-fuchsia-500">0</p>
+                        <p class="text-sm md:text-base font-medium">Horas</p>
+                    </div>
+                    <div>
+                        <p id="minutes" class="text-5xl md:text-7xl font-bold text-purple-500">0</p>
+                        <p class="text-sm md:text-base font-medium">Minutos</p>
+                    </div>
+                    <div>
+                        <p id="seconds" class="text-5xl md:text-7xl font-bold text-violet-500">0</p>
+                        <p class="text-sm md:text-base font-medium">Segundos</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="neumorphic p-6">
+                <h2 id="romantic-phrase"
+                    class="font-title text-5xl md:text-6xl text-gray-800 transition-opacity duration-1000"></h2>
+            </div>
+
+            <div id="nuestro-mundo"
+                class="neumorphic p-6 md:p-8 text-left max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1">
+                    <h3 class="font-title text-5xl text-rose-600 mb-8 text-center">Nuestro Mundo</h3>
+                    <h4 class="font-bold text-2xl text-rose-800 border-b-2 border-rose-200 pb-2 mb-4">Nuestras Cosas
+                        Favoritas</h4>
+                    <ul class="space-y-3 list-none text-gray-600">
+                        <li><b><a
+                                    href="https://www.youtube.com/watch?v=zXbqad3UPCk&list=PLa4MIR_EXQRWVE50vQpj5Z0plMjHcYmnf"><span
+                                        class="font-bold text-rose-600">Canción:</span> Nuestra Playlist </li></a></b>
+                        <li><span class="font-bold text-rose-600">Helado:</span> Blizzard de brownie 🍨</li>
+                        <li><span class="font-bold text-rose-600">Lugar:</span> Tu coranzonsito 💕</li>
+                        <li><b><a href="https://maps.app.goo.gl/T7yej25TxZBFindv8"><span
+                                        class="font-bold text-rose-600">Comida:</span> Próxima cita</li></b></a>
+                    </ul>
+                </div>
+                <div class="flex-1 flex justify-center items-center">
+                    <div
+                        class="w-full max-w-xs aspect-square neumorphic rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                        <img src="img/us.jpg" alt="Foto de aniversario" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <div id="razones" class="neumorphic p-6 md:p-8">
+                <h3 class="font-title text-5xl md:text-6xl text-rose-600 mb-8">12 Razones Para Amarte</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 text-left">
+                </div>
+            </div>
+
+            <div id="album" class="neumorphic p-6 md:p-8 min-h-[500px] overflow-hidden">
+                <h3 class="font-title text-5xl md:text-6xl text-rose-600 mb-4">Cofre de Recuerdos</h3>
+                <div id="cofre-container" class="relative">
+                    <div class="cofre">
+                        <div class="cofre-tapa"></div>
+                        <div class="cofre-base"></div>
+                        <div class="cofre-cerradura"></div>
+                    </div>
+                    <p class="mt-4">Toca el cofre para abrir nuestros recuerdos...</p>
+                </div>
+                <div id="photo-gallery-wrapper" class="hidden">
+                    <button id="close-album-btn"
+                        class="neumorphic neumorphic-button mb-8 bg-rose-500 text-white font-bold py-2 px-5 rounded-full hover:bg-rose-600">
+                        ← Cerrar Cofre
+                    </button>
+                    <div id="photo-gallery" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-album"
+        class="modal fixed inset-0 bg-black/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div class="modal-content neumorphic max-w-3xl w-full relative transform scale-95 p-2">
+            <button id="modal-close"
+                class="absolute -top-4 -right-4 neumorphic neumorphic-button bg-white text-rose-600 rounded-full h-10 w-10 flex items-center justify-center text-2xl font-bold z-10">&times;</button>
+            <img id="modal-image" src="" class="w-full h-auto max-h-[70vh] object-contain rounded-2xl"
+                alt="Recuerdo en grande">
+            <p id="modal-description" class="p-6 text-center text-lg"></p>
+            <button id="modal-prev"
+                class="absolute top-1/2 left-4 -translate-y-1/2 neumorphic neumorphic-button p-3 rounded-full">‹</button>
+            <button id="modal-next"
+                class="absolute top-1/2 right-4 -translate-y-1/2 neumorphic neumorphic-button p-3 rounded-full">›</button>
+        </div>
+    </div>
+
+    <div id="modal-carta"
+        class="modal fixed inset-0 bg-black/50 backdrop-blur-sm z-[70] flex items-center justify-center p-4 opacity-0 pointer-events-none">
+        <div id="carta-modal-contenido" class="neumorphic max-w-lg w-full relative transform scale-95 p-8 text-center">
+            <button id="carta-modal-close"
+                class="absolute top-4 right-4 text-rose-600 hover:text-rose-800 text-3xl font-bold">&times;</button>
+            <h3 id="carta-modal-title" class="font-title text-4xl text-rose-600 mb-4"></h3>
+            <p id="carta-modal-text" class="text-lg"></p>
+        </div>
+    </div>
+
+    <div id="music-permission-modal"
+        class="modal fixed inset-0 z-[80] flex flex-col items-center justify-center p-4 opacity-0 pointer-events-none bg-black-fade">
+        <div class="neumorphic p-8 text-center max-w-sm w-full bg-white text-rose-900">
+            <h3 class="font-title text-4xl text-rose-600 mb-4">¡Un Detalle Musical!</h3>
+            <p class="mb-6">¿Nos permites reproducir una canción de fondo para acompañar tus recuerdos?</p>
+            <button id="accept-music-btn"
+                class="w-full neumorphic neumorphic-button bg-rose-500 text-white py-3 rounded-lg hover:bg-rose-600 font-bold transform">Sí,
+                con mucho gusto</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Configuration
+            const ANIVERSARIO_PASS = "051024";
+            const FECHA_ANIVERSARIO = new Date(2024, 9, 5);
+            const FRASES_ROMANTICAS = ["Un año parece poco para todo lo que quiero vivir contigo.", "Gracias por ser mi persona favorita en el mundo.", "Cada día a tu lado es mi nuevo día favorito.", "Encontrarte fue el inicio de mi historia de amor favorita.", "Eres mi 'ojalá te hubiera conocido antes'.", "Contigo, cada momento es un recuerdo que atesoro.", "Un año de risas, abrazos y puro amor. ¡Y los que nos faltan!", "Feliz primer aniversario al amor de mi vida.", "365 días y sigo eligiéndote cada mañana.", "Gracias por enseñarme lo que es el amor de verdad.", "Mi lugar seguro en el mundo es en tus brazos.", "Eres la casualidad más bonita que me ha pasado.", "No es solo un año, es el primero de toda una vida.", "Contigo, el 'para siempre' empezó hace 365 días.", "A tu lado, la vida es un sueño hecho realidad.", "Gracias por pintar mi mundo de colores.", "No sabía cuánto te necesitaba hasta que llegaste.", "Eres mi sol en los días grises y mi luna en las noches.", "Este año ha sido el mejor capítulo de mi vida, y tú eres la protagonista.", "Te amo más de lo que las palabras pueden expresar.", "Por muchos años más de coleccionar momentos inolvidables.", "Eres mi paz en medio del caos.", "Cada día me enamoro más de la persona increíble que eres.", "Gracias por tu paciencia, tu apoyo y tu amor incondicional.", "Un año después y me sigues dando mariposas en el estómago.", "Lo nuestro es mi historia favorita para contar.", "Eres el 'sí' a todas mis preguntas.", "Descubrí el verdadero significado de la felicidad contigo.", "Que la vida nos regale mil años más juntos.", "Eres la pieza que le faltaba a mi rompecabezas.", "Amo cada pequeña cosa de ti.", "Gracias por hacer de un año ordinario, un año extraordinario.", "Quiero pasar el resto de mis atardeceres contigo.", "Eres mi definición perfecta de amor.", "Un año de ser el equipo perfecto.", "Contigo he aprendido que el amor es libertad y crecimiento.", "Me encanta la persona en la que me he convertido a tu lado.", "Eres mi hogar, no importa en qué parte del mundo estemos.", "Por un futuro lleno de nuestras locuras y sueños cumplidos.", "En tu sonrisa encuentro mi felicidad.", "Gracias por este primer año de pura magia.", "No puedo imaginar un futuro en el que no estés tú.", "Este es solo el comienzo de nuestra eterna historia de amor.", "Eres la melodía que mi corazón no deja de cantar.", "Feliz aniversario a la dueña de mis pensamientos.", "Contigo, cada día es una aventura emocionante.", "Me haces la persona más afortunada del mundo.", "Un año y siento que te conozco de toda la vida.", "Amo la forma en que nos miramos.", "Gracias por ser mi cómplice y mi mejor amiga.", "Nuestro amor es mi mayor tesoro.", "Por un año de amor y por todos los que vienen.", "Eres mucho más de lo que alguna vez soñé.", "La vida es más bonita desde que estás en ella.", "Tu amor me inspira a ser mejor cada día.", "Te elegiría a ti, en cien vidas, en cien mundos.", "Que este primer año sea el prólogo de una historia sin fin.", "A tu lado he vivido los mejores 365 días de mi vida.", "Gracias por llenar mi vida de tanta alegría.", "Contigo he encontrado un amor que creía que solo existía en las películas.", "Feliz primer aniversario, mi amor. Gracias por tanto.", "Eres mi todo y un poquito más.", "Celebrando 12 meses de amor incondicional.", "Amo construir nuestra vida juntos.", "Eres mi persona, mi momento y mi historia favorita.", "Gracias por ser la razón de mi sonrisa diaria.", "Un año de miradas que lo dicen todo.", "Contigo, el amor es fácil y hermoso.", "Por este año y por una vida entera de felicidad a tu lado.", "Eres el sueño que nunca quiero que termine.", "El mejor 'sí' que he dado fue al comenzar esto contigo.", "Gracias por ser mi calma y mi aventura.", "Un año se queda corto para agradecerte por tanto.", "Amo cada segundo que paso contigo.", "Nuestro amor es la mejor decisión que he tomado.", "Feliz aniversario a quien le dio un nuevo sentido a mi vida.", "365 días de amarte y me faltan todos los demás.", "Eres mi presente y todo mi futuro.", "Por un amor que crece más fuerte con cada día que pasa.", "Contigo he descubierto que el paraíso es un lugar en la Tierra.", "Un año de ser inmensamente feliz gracias a ti.", "Gracias por aparecer y cambiarlo todo para mejor.", "Eres la historia que siempre querré contar.", "A tu lado, el tiempo vuela y cada momento es perfecto.", "Feliz aniversario, amor. Sigamos escribiendo nuestra historia.", "Eres mi más grande bendición.", "Un año de amor que se siente como el primer día.", "Gracias por hacerme creer en la magia.", "Nuestro amor es mi canción favorita.", "Que sigamos sumando años y multiplicando amor.", "Eres la luz que ilumina todos mis días.", "Te amo hoy más que ayer, pero menos que mañana.", "Contigo, la vida es una fiesta.", "Por el primer año del resto de nuestras vidas.", "Gracias por ser mi amor, mi amigo y mi confidente.", "Eres el ancla que me mantiene firme y las alas que me hacen volar.", "Feliz aniversario a la persona que me hace sentir completo.", "Encontrarte fue como llegar a casa.", "Un año de ti es el mejor regalo que la vida me pudo dar.", "Gracias por este capítulo inolvidable. Vamos por el siguiente."];
+            const CARTA_BASE_COLORS = ['#fee2e2', '#ffe4e6', '#fecdd3', '#fce7f3', '#fbcfe8', '#fbb6ce', '#fed7aa', '#fee2d5', '#ffedd5', '#fde68a', '#fef3c7', '#fde2e2'];
+            const CARTA_FLAP_COLORS = ['#fb7185', '#f472b6', '#f06595', '#ec4899', '#fdba74', '#fb923c', '#fca5a5', '#f472b6', '#f0abfc', '#e879f9', '#f6ad55', '#fb7185'];
+            const RAZONES_PARA_AMARTE = [
+                { title: "1. Tu Sonrisa", text: "Ilumina mis días y me recuerda por qué todo vale la pena." }, { title: "2. Cómo Me Haces Sentir", text: "Contigo me siento seguro, feliz y en casa." },
+                { title: "3. Nuestras Aventuras", text: "Cada una, desde la más pequeña, es inolvidable." }, { title: "4. Tu Inteligencia", text: "Admiro la forma en que ves el mundo y todo lo que me enseñas." },
+                { title: "5. Tu Apoyo", text: "Siempre estás ahí para mí, en las buenas y en las malas." }, { title: "6. Tu Risa", text: "Tus chistes y ocurrencias son mi medicina favorita." },
+                { title: "7. Tu Fortaleza", text: "Me inspiras a ser una mejor persona cada día." }, { title: "8. Nuestros Silencios", text: "No necesitamos palabras para saber lo que sentimos." },
+                { title: "9. Nuestros Sueños", text: "Amo construir planes y un futuro a tu lado." }, { title: "10. Tus Detalles", text: "Cada pequeño gesto de ti me enamora más." },
+                { title: "11. Cómo Me Cuidas", text: "Me haces sentir la persona más afortunada del mundo." }, { title: "12. Por Ser Tú", text: "Y por dejarme ser yo mismo a tu lado. Te amo." },
+            ];
+            const RECUERDOS_POR_MES = [
+                {
+                    "month": "El Comienzo",
+                    "photos": [
+                        {
+                            "img": "img/comienzo/20240831_205238.jpg",
+                            "desc": "La vista de la ciudad que fue testigo del inicio de nuestra historia. Un mundo de posibilidades se abría ante nosotros."
+                        },
+                        {
+                            "img": "img/comienzo/20241001_210924.jpg",
+                            "desc": "Esa sonrisa y esa alegría que me cautivaron desde el primer día. Nuestra primera cita, donde supe que quería verte sonreír siempre."
+                        },
+                        {
+                            "img": "img/comienzo/20241013_212210.jpg",
+                            "desc": "Nuestro primer paseo bajo las luces de la ciudad. Cada paso a tu lado se sentía como el camino correcto."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 1: Donde Todo Empezó ✨",
+                    "photos": [
+                        {
+                            "img": "img/1mes/20241107_221037.jpg",
+                            "desc": "Los pequeños detalles que me enamoraron. Este gatito dibujado es el reflejo de lo especial y única que eres."
+                        },
+                        {
+                            "img": "img/1mes/20241118_175642.jpg",
+                            "desc": "Tu luz y tu alegría en nuestro primer picnic. Eres mi persona favorita en el mundo."
+                        },
+                        {
+                            "img": "img/1mes/20241118_175818.jpg",
+                            "desc": "Nuestro primer beso en un día perfecto. El momento exacto en que mi mundo se detuvo y solo existíamos tú y yo."
+                        },
+                        {
+                            "img": "img/1mes/20241118_175835.jpg",
+                            "desc": "Tú y yo, simplemente siendo felices. No necesito nada más si estoy contigo."
+                        },
+                        {
+                            "img": "img/1mes/20241119_213105.jpg",
+                            "desc": "Nuestras pulseras, un símbolo de nuestra conexión. Un pequeño hilo que nos une a donde sea que vayamos."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 2: Nuestras Primeras Risas y Pláticas",
+                    "photos": [
+                        {
+                            "img": "img/2mes/20241202_153111.jpg",
+                            "desc": "Una tarde de nieve y sonrisas. Cada momento contigo, por simple que sea, se vuelve mi favorito."
+                        },
+                        {
+                            "img": "img/2mes/20241205_213229.jpg",
+                            "desc": "Tus regalos, llenos de arte y creatividad, como tú. Me encanta cómo pones un pedacito de tu mundo en mis manos."
+                        },
+                        {
+                            "img": "img/2mes/20241205_213310.jpg",
+                            "desc": "Esa sonrisa que ilumina hasta la noche más oscura. Los paseos en coche contigo son mi terapia."
+                        },
+                        {
+                            "img": "img/2mes/20241205_213500.jpg",
+                            "desc": "Cómplices de aventuras y de vida. Me encanta que seamos nosotros contra el mundo."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 3: Creando Nuestro Propio Mundo 💖",
+                    "photos": [
+                        {
+                            "img": "img/3mes/20250105_205601.jpg",
+                            "desc": "Tu carita de felicidad con nuestro peluchito. Verte feliz es el mejor regalo que puedo recibir."
+                        },
+                        {
+                            "img": "img/3mes/20250105_205632.jpg",
+                            "desc": "Abrazados bajo el cielo nocturno. No hay lugar más cálido y seguro que entre tus brazos."
+                        },
+                        {
+                            "img": "img/3mes/20250105_205657.jpg",
+                            "desc": "Un beso que sella una promesa. Cada día a tu lado confirma que eres el amor de mi vida."
+                        },
+                        {
+                            "img": "img/3mes/20250122_220333.jpg",
+                            "desc": "Nuestros llaveros, otro símbolo de que siempre estamos conectados. Llevo tu amor conmigo a todas partes."
+                        }
+                    ]
+                },
+                {
+                    "month": "Cumpleaños amorsito!",
+                    "photos": [
+                        {
+                            "img": "img/cumple/20241206_213204.jpg",
+                            "desc": "Verte sonreír con esa luz de bengala fue el mejor deseo de cumpleaños hecho realidad. ¡Feliz vida, mi amor!"
+                        },
+                        {
+                            "img": "img/cumple/20241206_214158.jpg",
+                            "desc": "La tradicional mordida de pastel. ¡Amo cada una de nuestras divertidas tradiciones!"
+                        },
+                        {
+                            "img": "img/cumple/20241206_214223.jpg",
+                            "desc": "Embarrados de pastel y de felicidad. Contigo, hasta el momento más simple se vuelve una gran celebración."
+                        },
+                        {
+                            "img": "img/cumple/20241206_214235.jpg",
+                            "desc": "Un beso para sellar un día perfecto. Celebrar tu vida es mi más grande alegría."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 4: La Belleza de lo Cotidiano",
+                    "photos": [
+                        {
+                            "img": "img/4mes/20250203_225816.jpg",
+                            "desc": "Llevarnos en un llavero para no separarnos nunca. Un pequeño recordatorio de nuestro amor."
+                        },
+                        {
+                            "img": "img/4mes/20250205_221639.jpg",
+                            "desc": "Un jitomatito que representa todo el amor y la dedicación que le pones a las cosas. Amo tu arte."
+                        },
+                        {
+                            "img": "img/4mes/20250205_221926.jpg",
+                            "desc": "Nuestras caras y juegos de noche. Gracias por tantas risas y por ser mi persona favorita para hacer locuras."
+                        },
+                        {
+                            "img": "img/4mes/20250205_222013.jpg",
+                            "desc": "Tu cara de felicidad al recibir mis regalos lo es todo para mí. Me encanta sorprenderte."
+                        },
+                        {
+                            "img": "img/4mes/20250211_103816.jpg",
+                            "desc": "Tus cartas son mi tesoro más preciado. Cada palabra tuya es un abrazo para mi corazón."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 5: Un Amor que Crece y Florece 🌹",
+                    "photos": [
+                        {
+                            "img": "img/5mes/20250305_224306.jpg",
+                            "desc": "Cinco meses celebrados con gatitos y amor. Cada detalle tuyo es un tesoro para mí."
+                        },
+                        {
+                            "img": "img/5mes/20250305_224315.jpg",
+                            "desc": "Un atardecer enmarcado que simboliza todos los que quiero pasar contigo. Gracias por este regalo tan significativo."
+                        },
+                        {
+                            "img": "img/5mes/20250305_224333.jpg",
+                            "desc": "Nuestro abrazo, el mejor lugar del mundo. Cinco meses sintiéndome en casa contigo."
+                        },
+                        {
+                            "img": "img/5mes/20250305_232821.jpg",
+                            "desc": "Tu carta de 5 meses y tus dibujos de gatitos que guardo en el corazón. Amo leerte y sentirte cerca."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 6: Medio Año de Magia Pura",
+                    "photos": [
+                        {
+                            "img": "img/6mes/20250405_183622.jpg",
+                            "desc": "Celebrando nuestro medio año con flores y sonrisas frente al Expiatorio. La selfie perfecta de un día perfecto."
+                        },
+                        {
+                            "img": "img/6mes/20250405_183701.jpg",
+                            "desc": "Mi cara de loco y tu sonrisa hermosa. Amo que saques mi lado más divertido y espontáneo."
+                        },
+                        {
+                            "img": "img/6mes/20250405_184029.jpg",
+                            "desc": "Seis meses de ser tu novio y sentirme el hombre más afortunado del mundo. Gracias por tu amor."
+                        },
+                        {
+                            "img": "img/6mes/20250405_191602.jpg",
+                            "desc": "Terminando nuestra celebración con una rica cena. Brindo por este medio año y por toda la vida que nos falta juntos."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 7: Soñando con Nuestro Futuro Juntos",
+                    "photos": [
+                        {
+                            "img": "img/7mes/20250504_190201.jpg",
+                            "desc": "Nuestras citas de churros y caras chistosas. La vida contigo es así de dulce y divertida."
+                        },
+                        {
+                            "img": "img/7mes/20250505_213403.jpg",
+                            "desc": "Esa sonrisa tuya que ilumina mis noches. Amo nuestros viajes en coche sin rumbo fijo."
+                        },
+                        {
+                            "img": "img/7mes/20250508_125259.jpg",
+                            "desc": "¡Tan orgulloso de ti y de tus logros! Eres una ganadora en todo lo que haces y yo soy tu fan número uno."
+                        },
+                        {
+                            "img": "img/7mes/20250508_212315.jpg",
+                            "desc": "Siempre hay espacio para un helado y una selfie. Contigo, cualquier día se convierte en una celebración."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 8: Mi Lugar Seguro Eres Tú 🏡",
+                    "photos": [
+                        {
+                            "img": "img/8mes/IMG-20250607-WA0035.jpg",
+                            "desc": "Ocho meses y cada día te veo florecer más hermosa. Mereces todas las flores del universo."
+                        },
+                        {
+                            "img": "img/8mes/IMG-20251005-WA0043.jpg",
+                            "desc": "Tu carita de felicidad al recibir la carta y los detalles de nuestros 8 meses. Tu alegría es la mía."
+                        },
+                        {
+                            "img": "img/8mes/IMG-20251005-WA0044.jpg",
+                            "desc": "Payasitos y felices. Gracias por 8 meses de risas y amor incondicional."
+                        },
+                        {
+                            "img": "img/8mes/IMG-20251005-WA0045.jpg",
+                            "desc": "A veces te mando fotos de nubes solo para recordarte que, incluso mirando al cielo, pienso en ti."
+                        },
+                        {
+                            "img": "img/8mes/IMG-20251005-WA0046.jpg",
+                            "desc": "Mi lugar favorito en el mundo entero es así, abrazado a ti. Eres mi refugio y mi paz."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 9: La Suma de los Pequeños Detalles",
+                    "photos": [
+                        {
+                            "img": "img/9mes/IMG-20251005-WA0047.jpg",
+                            "desc": "Nueve meses y seguimos siendo igual de divertidos. Me encanta que seamos como Chimuelo y Furia Luminosa."
+                        },
+                        {
+                            "img": "img/9mes/IMG-20251005-WA0048.jpg",
+                            "desc": "Cada carta tuya, sellada con amor, es un tesoro. Guardo cada palabra y cada detalle tuyo cerca de mi corazón."
+                        },
+                        {
+                            "img": "img/9mes/IMG-20251005-WA0049.jpg",
+                            "desc": "Un frasco lleno de estrellas y patitos, como un frasco lleno de nuestros sueños. Gracias por este regalo tan mágico."
+                        },
+                        {
+                            "img": "img/9mes/IMG-20251005-WA0050.jpg",
+                            "desc": "Un besito de dragón para mi persona favorita. Nueve meses de sentir que nuestra historia es de fantasía."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 10: A Pasos de Nuestro Primer Año",
+                    "photos": [
+                        {
+                            "img": "img/10mes/IMG-20251005-WA0051.jpg",
+                            "desc": "Explorando el mundo juntos, cámara en mano. Amo ser tu compañero de aventuras y capturar nuestros recuerdos."
+                        },
+                        {
+                            "img": "img/10mes/IMG-20251005-WA0052.jpg",
+                            "desc": "Tú, capturando la belleza del mundo. Yo, capturando a la mujer más bella del mundo."
+                        },
+                        {
+                            "img": "img/10mes/IMG-20251005-WA0053.jpg",
+                            "desc": "Caras chistosas y mucho amor. Diez meses y me sigues haciendo sonreír como el primer día."
+                        },
+                        {
+                            "img": "img/10mes/IMG-20251005-WA0054.jpg",
+                            "desc": "Diez meses celebrados con flores y abrazos. Cada día a tu lado es un motivo para celebrar."
+                        },
+                        {
+                            "img": "img/10mes/IMG-20251005-WA0055.jpg",
+                            "desc": "Tu sonrisa al recibir las flores es la imagen que quiero guardar para siempre. ¡Felices 10 meses, mi vida!"
+                        },
+                        {
+                            "img": "img/10mes/IMG-20251005-WA0056.jpg",
+                            "desc": "Te mando fotos de nubes porque en cada una veo una forma de nuestro amor: a veces tranquilo, a veces grande e imponente."
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 11: Recuerdos Inolvidables",
+                    "photos": [
+                        {
+                            "img": "img/11mes/IMG-20251005-WA0057.jpg",
+                            "desc": "Once meses de ser los más lindos. Amo nuestras diademas y nuestras noches de pláticas en el coche."
+                        },
+                        {
+                            "img": "img/11mes/IMG-20251005-WA0058.jpg",
+                            "desc": "El Porsche de mis sueños, un regalo tuyo. Siempre sabes cómo sorprenderme con los detalles más increíbles."
+                        },
+                        {
+                            "img": "img/11mes/IMG-20251005-WA0059.jpg",
+                            "desc": "Tus flores amarillas, mi color favorito. Once meses y sigues llenando mi vida de luz y color. ¡Te amo!"
+                        },
+                        {
+                            "img": "img/11mes/IMG-20251005-WA0060.jpg",
+                            "desc": "Mi cara de payaso y tu hermosa sonrisa. No hay mejor combinación en el mundo. ¡Felices 11 meses, mi vida!"
+                        },
+                        {
+                            "img": "img/11mes/IMG-20251005-WA0061.jpg",
+                            "desc": "Un besito de agradecimiento por los regalos y por tanto amor. Eres la mejor novia del universo. ✨"
+                        }
+                    ]
+                },
+                {
+                    "month": "Mes 12: Nuestro Primer Año: El Comienzo de Siempre 🥂",
+                    "photos": [
+                        {
+                            "img": "https://placehold.co/800x600/a7f3d0/831843?text=Continuará",
+                            "desc": "¡Feliz Aniversario, mi amor! Un año increíble a tu lado, 365 días de amor, risas y crecimiento. Este es solo el primer capítulo de nuestra hermosa historia. Te amo infinitamente."
+                        }
+                    ]
+                }
+
+            ];
+
+            // Core Logic
+            const loginScreen = document.getElementById('login-screen');
+            const mainContent = document.getElementById('main-content');
+            const backgroundMusic = document.getElementById('background-music');
+            const musicPermissionModal = document.getElementById('music-permission-modal');
+            const acceptMusicBtn = document.getElementById('accept-music-btn');
+
+            document.getElementById('login-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (document.getElementById('password').value === ANIVERSARIO_PASS) {
+                    showHappyAnimation();
+                    setTimeout(() => {
+                        loginScreen.classList.add('fade-out-down');
+                        setTimeout(() => {
+                            loginScreen.style.display = 'none';
+                            mainContent.classList.remove('hidden');
+                            startApp();
+                            // Show music permission modal after main content is visible
+                            musicPermissionModal.classList.remove('opacity-0', 'pointer-events-none');
+                        }, 800);
+                    }, 1500);
+                } else {
+                    document.getElementById('error-message').textContent = 'Fecha incorrecta, ¡inténtalo de nuevo!';
+                    loginScreen.querySelector('.neumorphic').classList.add('animate-shake');
+                    document.querySelectorAll('.login-heart').forEach(h => h.classList.add('broken'));
+                    setTimeout(() => {
+                        document.getElementById('error-message').textContent = '';
+                        loginScreen.querySelector('.neumorphic').classList.remove('animate-shake');
+                        createLoginHearts();
+                    }, 2000);
+                }
+            });
+
+            acceptMusicBtn.addEventListener('click', () => {
+                // Fade out the modal and start music
+                musicPermissionModal.classList.add('accepted'); // This class applies the background fade and opacity fade
+                backgroundMusic.play().catch(error => {
+                    console.log("Error playing music:", error);
+                    // Optionally, show a message to the user that autoplay failed
+                    // and provide a manual play button if necessary.
+                });
+            });
+
+            // Check if main content is visible to control music playback (e.g., if user navigates away)
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.target === mainContent && !musicPermissionModal.classList.contains('accepted')) {
+                        if (entry.isIntersecting) {
+                            // Main content is visible, if music was accepted, play it.
+                            // This is handled by the modal acceptance, but good for robustness.
+                        } else {
+                            // Main content is not visible, pause music
+                            backgroundMusic.pause();
+                        }
+                    }
+                });
+            }, { threshold: 0.1 }); // Adjust threshold as needed
+            observer.observe(mainContent);
+
+
+            const loginHeartsContainer = document.getElementById('login-bg-hearts');
+            function createLoginHearts() {
+                loginHeartsContainer.innerHTML = '';
+                for (let i = 0; i < 15; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'login-heart';
+                    heart.style.left = `${Math.random() * 100}vw`;
+                    heart.style.top = `${Math.random() * 100}vh`;
+                    const scale = Math.random() * 0.5 + 0.3;
+                    heart.style.setProperty('--scale', scale);
+                    heart.style.transform = `scale(${scale})`;
+                    heart.style.animationDuration = `${Math.random() * 10 + 20}s`;
+                    heart.style.animationDelay = `-${Math.random() * 10}s`;
+                    loginHeartsContainer.appendChild(heart);
+                }
+            }
+            createLoginHearts();
+
+            function startApp() {
+                // Abstract Shapes
+                const shapesContainer = document.getElementById('background-shapes');
+                for (let i = 0; i < 5; i++) {
+                    const shape = document.createElement('div');
+                    shape.className = 'shape';
+                    const size = Math.random() * 200 + 100;
+                    shape.style.width = `${size}px`;
+                    shape.style.height = `${size}px`;
+                    shape.style.top = `${Math.random() * 100}%`;
+                    shape.style.left = `${Math.random() * 100}%`;
+                    shape.style.animationDuration = `${Math.random() * 20 + 20}s`;
+                    shapesContainer.appendChild(shape);
+                }
+
+                // Time counter
+                const timeElements = { days: [document.getElementById('days'), document.getElementById('nav-days')], hours: [document.getElementById('hours'), document.getElementById('nav-hours')], minutes: [document.getElementById('minutes'), document.getElementById('nav-minutes')], seconds: [document.getElementById('seconds'), document.getElementById('nav-seconds')] };
+                const updateTimeCounter = () => {
+                    const diff = new Date() - FECHA_ANIVERSARIO;
+                    const timeData = { days: Math.floor(diff / 864e5), hours: Math.floor((diff % 864e5) / 36e5), minutes: Math.floor((diff % 36e5) / 6e4), seconds: Math.floor((diff % 6e4) / 1e3) };
+                    for (const unit in timeData) { const value = timeData[unit] < 0 ? 0 : timeData[unit]; timeElements[unit].forEach(el => el.textContent = value); }
+                };
+                updateTimeCounter(); setInterval(updateTimeCounter, 1000);
+
+                // Navbar scroll
+                const navbar = document.getElementById('navbar');
+                window.addEventListener('scroll', () => { navbar.classList.toggle('-translate-y-full', window.scrollY <= document.getElementById('main-counter-section').offsetTop); });
+
+                // Scroll hearts
+                const scrollHeartsContainer = document.getElementById('scroll-hearts-container');
+                let isScrolling;
+                window.addEventListener('scroll', () => {
+                    window.clearTimeout(isScrolling);
+                    createScrollHeart();
+                    isScrolling = setTimeout(() => { }, 100);
+                }, false);
+
+                function createScrollHeart() {
+                    const heart = document.createElement('div');
+                    heart.className = 'scroll-heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = `${Math.random() * 100}vw`;
+                    heart.style.top = `${Math.random() * 100}vh`;
+                    heart.style.fontSize = `${Math.random() * 16 + 8}px`;
+                    scrollHeartsContainer.appendChild(heart);
+                    setTimeout(() => { heart.remove(); }, 1500);
+                }
+
+                // Romantic phrases
+                const phraseEl = document.getElementById('romantic-phrase');
+                let phraseIndex = 0;
+                phraseEl.textContent = FRASES_ROMANTICAS[0];
+                setInterval(() => {
+                    phraseEl.style.opacity = 0;
+                    setTimeout(() => {
+                        phraseIndex = (phraseIndex + 1) % FRASES_ROMANTICAS.length;
+                        phraseEl.textContent = FRASES_ROMANTICAS[phraseIndex];
+                        phraseEl.style.opacity = 1;
+                    }, 1000);
+                }, 5000);
+
+                // Cards
+                document.querySelector('#razones .grid').innerHTML = RAZONES_PARA_AMARTE.map((r, i) => `<div class="carta-sobre-container" data-title="${r.title}" data-text="${r.text}"><div class="carta-sobre"><div class="solapa" style="--flap-color: ${CARTA_FLAP_COLORS[i % 12]}"></div><div class="cuerpo-sobre" style="--carta-color: ${CARTA_BASE_COLORS[i % 12]}"></div><div class="corazon-sobre">❤️</div></div></div>`).join('');
+                const modalCarta = document.getElementById('modal-carta');
+                let activeCard = null;
+                document.querySelectorAll('.carta-sobre-container').forEach(c => c.addEventListener('click', () => {
+                    if (c.classList.contains('abierta')) return;
+                    activeCard = c;
+                    c.classList.add('abierta');
+                    setTimeout(() => {
+                        document.getElementById('carta-modal-title').textContent = c.dataset.title;
+                        document.getElementById('carta-modal-text').textContent = c.dataset.text;
+                        modalCarta.classList.remove('opacity-0', 'pointer-events-none');
+                        modalCarta.querySelector('.neumorphic').classList.remove('scale-95');
+                    }, 500);
+                }));
+                const closeCartaModal = () => {
+                    modalCarta.classList.add('opacity-0', 'pointer-events-none');
+                    modalCarta.querySelector('.neumorphic').classList.add('scale-95');
+                    if (activeCard) {
+                        activeCard.classList.remove('abierta');
+                        activeCard = null;
+                    }
+                };
+                document.getElementById('carta-modal-close').addEventListener('click', closeCartaModal);
+                modalCarta.addEventListener('click', e => { if (e.target === modalCarta) closeCartaModal(); });
+
+                // Gallery & Chest
+                const galleryWrapper = document.getElementById('photo-gallery-wrapper');
+                const cofre = document.getElementById('cofre-container');
+                const allPhotos = RECUERDOS_POR_MES.flatMap(m => m.photos);
+                let currentPhotoIndex = 0;
+
+                cofre.addEventListener('click', () => {
+                    if (cofre.classList.contains('abierto')) return;
+                    cofre.classList.add('abierto'); cofre.style.pointerEvents = 'none';
+                    showSparkleAnimation();
+                    setTimeout(() => {
+                        cofre.classList.add('fade-out-down');
+                        setTimeout(() => { cofre.style.display = 'none'; galleryWrapper.classList.remove('hidden'); galleryWrapper.classList.add('fade-in-up'); }, 800);
+                    }, 1000);
+                });
+
+                document.getElementById('close-album-btn').addEventListener('click', () => {
+                    galleryWrapper.classList.remove('fade-in-up'); galleryWrapper.classList.add('fade-out-down');
+                    setTimeout(() => {
+                        galleryWrapper.classList.add('hidden');
+                        cofre.style.display = 'block'; cofre.classList.remove('abierto'); cofre.style.pointerEvents = 'auto';
+                        cofre.classList.remove('fade-out-down'); cofre.classList.add('fade-in-up');
+                    }, 800);
+                });
+
+                document.getElementById('photo-gallery').innerHTML = RECUERDOS_POR_MES.map((group, groupIndex) => {
+                    const groupPhotos = group.photos.map((photo, photoIndex) => {
+                        const flatIndex = RECUERDOS_POR_MES.slice(0, groupIndex).reduce((acc, g) => acc + g.photos.length, 0) + photoIndex;
+                        return `<div class="aspect-square neumorphic rounded-xl overflow-hidden cursor-pointer transform hover:scale-105 transition-transform" onclick="openPhotoModal(${flatIndex})"><img src="${photo.img}" alt="${photo.desc}" class="w-full h-full object-cover"></div>`;
+                    }).join('');
+                    return `<h4 class="col-span-full font-title text-3xl text-rose-600 pt-6">${group.month}</h4>${groupPhotos}`;
+                }).join('');
+
+                const photoModal = document.getElementById('modal-album');
+                window.openPhotoModal = (index) => {
+                    currentPhotoIndex = index;
+                    document.getElementById('modal-image').src = allPhotos[index].img;
+                    document.getElementById('modal-description').textContent = allPhotos[index].desc;
+                    photoModal.classList.remove('opacity-0', 'pointer-events-none');
+                    photoModal.querySelector('.modal-content').classList.remove('scale-95');
+                };
+                const closePhotoModal = () => { photoModal.classList.add('opacity-0', 'pointer-events-none'); photoModal.querySelector('.modal-content').classList.add('scale-95'); };
+                const navigateAlbum = (dir) => {
+                    const modalContent = photoModal.querySelector('.modal-content');
+                    modalContent.classList.add('fading');
+                    setTimeout(() => {
+                        const newIndex = (currentPhotoIndex + dir + allPhotos.length) % allPhotos.length;
+                        openPhotoModal(newIndex);
+                        setTimeout(() => modalContent.classList.remove('fading'), 50);
+                    }, 300);
+                };
+                document.getElementById('modal-close').addEventListener('click', closePhotoModal);
+                document.getElementById('modal-prev').addEventListener('click', () => navigateAlbum(-1));
+                document.getElementById('modal-next').addEventListener('click', () => navigateAlbum(1));
+                photoModal.addEventListener('click', e => { if (e.target === photoModal) closePhotoModal(); });
+
+            }
+
+            // Animation helpers
+            function showSparkleAnimation() { const c = document.createElement('div'); c.style.cssText = 'position:fixed;inset:0;z-index:100;pointer-events:none;overflow:hidden;'; document.body.appendChild(c); for (let i = 0; i < 50; i++) { const s = document.createElement('div'); s.className = 'sparkle'; s.style.top = `${Math.random() * 100}vh`; s.style.left = `${Math.random() * 100}vw`; s.style.animationDelay = `${Math.random() * 0.5}s`; c.appendChild(s); } setTimeout(() => c.remove(), 2000); }
+            function showHappyAnimation() { /* Implementation omitted for brevity */ }
+            function showSadAnimation() { /* Implementation omitted for brevity */ }
+        });
+    </script>
+</body>
+
+</html>
